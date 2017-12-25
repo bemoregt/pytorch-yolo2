@@ -22,7 +22,7 @@ class lmdbDataset(Dataset):
                  meminit=False)
         self.txn = self.env.begin(write=False) 
         self.nSamples = int(self.txn.get('num-samples'))
-        self.indices = range(self.nSamples) 
+        self.indices = list(range(self.nSamples)) 
         if shuffle:
             random.shuffle(self.indices)
  

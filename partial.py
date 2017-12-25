@@ -6,7 +6,7 @@ def partial(cfgfile, weightfile, outfile, cutoff):
     m.load_weights(weightfile)
     m.seen = 0
     m.save_weights(outfile, cutoff)
-    print('save %s' % (outfile))
+    print(('save %s' % (outfile)))
 
 if __name__ == '__main__':
     import sys

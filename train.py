@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 import sys
 if len(sys.argv) != 4:
     print('Usage:')
@@ -101,7 +101,7 @@ if use_cuda:
 
 params_dict = dict(model.named_parameters())
 params = []
-for key, value in params_dict.items():
+for key, value in list(params_dict.items()):
     if key.find('.bn') >= 0 or key.find('.bias') >= 0:
         params += [{'params': [value], 'weight_decay': 0.0}]
     else:

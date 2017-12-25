@@ -45,18 +45,18 @@ def eval_widerface(cfgfile, weightfile, valdir, savedir):
                 sized_width = int(round(img.width*1.0/scale_size) * 16)
                 sized_height = int(round(img.height*1.0/scale_size) * 16)
                 sized = img.resize((sized_width, sized_height))
-                print(filename, img.width, img.height, sized_width, sized_height)
+                print((filename, img.width, img.height, sized_width, sized_height))
                 if sized_width * sized_height > 1024 * 2560:
-                    print('omit %s' % filename)
+                    print(('omit %s' % filename))
                     continue
                 boxes = do_detect(m, sized, 0.05, 0.4, use_cuda)
                 if True:
                     savename = os.path.join(targetdir, filename)
-                    print('save to %s' % savename)
+                    print(('save to %s' % savename))
                     plot_boxes(img, boxes, savename, class_names)
                 if True:
                     savename = os.path.join(targetdir, os.path.splitext(filename)[0]+".txt")
-                    print('save to %s' % savename)
+                    print(('save to %s' % savename))
                     save_boxes(img, boxes, savename)
 
 if __name__ == '__main__':

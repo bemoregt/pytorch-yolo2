@@ -10,7 +10,7 @@ def detect(cfgfile, weightfile, imgfile):
 
     m.print_network()
     m.load_weights(weightfile)
-    print('Loading weights from %s... Done!' % (weightfile))
+    print(('Loading weights from %s... Done!' % (weightfile)))
 
     if m.num_classes == 20:
         namesfile = 'data/voc.names'
@@ -31,7 +31,7 @@ def detect(cfgfile, weightfile, imgfile):
         boxes = do_detect(m, sized, 0.5, 0.4, use_cuda)
         finish = time.time()
         if i == 1:
-            print('%s: Predicted in %f seconds.' % (imgfile, (finish-start)))
+            print(('%s: Predicted in %f seconds.' % (imgfile, (finish-start))))
 
     class_names = load_class_names(namesfile)
     plot_boxes(img, boxes, 'predictions.jpg', class_names)
@@ -42,7 +42,7 @@ def detect_cv2(cfgfile, weightfile, imgfile):
 
     m.print_network()
     m.load_weights(weightfile)
-    print('Loading weights from %s... Done!' % (weightfile))
+    print(('Loading weights from %s... Done!' % (weightfile)))
 
     if m.num_classes == 20:
         namesfile = 'data/voc.names'
@@ -64,7 +64,7 @@ def detect_cv2(cfgfile, weightfile, imgfile):
         boxes = do_detect(m, sized, 0.5, 0.4, use_cuda)
         finish = time.time()
         if i == 1:
-            print('%s: Predicted in %f seconds.' % (imgfile, (finish-start)))
+            print(('%s: Predicted in %f seconds.' % (imgfile, (finish-start))))
 
     class_names = load_class_names(namesfile)
     plot_boxes_cv2(img, boxes, savename='predictions.jpg', class_names=class_names)
@@ -76,7 +76,7 @@ def detect_skimage(cfgfile, weightfile, imgfile):
 
     m.print_network()
     m.load_weights(weightfile)
-    print('Loading weights from %s... Done!' % (weightfile))
+    print(('Loading weights from %s... Done!' % (weightfile)))
 
     if m.num_classes == 20:
         namesfile = 'data/voc.names'
@@ -97,7 +97,7 @@ def detect_skimage(cfgfile, weightfile, imgfile):
         boxes = do_detect(m, sized, 0.5, 0.4, use_cuda)
         finish = time.time()
         if i == 1:
-            print('%s: Predicted in %f seconds.' % (imgfile, (finish-start)))
+            print(('%s: Predicted in %f seconds.' % (imgfile, (finish-start))))
 
     class_names = load_class_names(namesfile)
     plot_boxes_cv2(img, boxes, savename='predictions.jpg', class_names=class_names)

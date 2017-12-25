@@ -17,7 +17,7 @@ def checkImageIsValid(imageBin):
 
 def writeCache(env, cache):
     with env.begin(write=True) as txn:
-        for k, v in cache.iteritems():
+        for k, v in cache.items():
             txn.put(k, v)
 
 
@@ -36,7 +36,7 @@ def createDataset(outputPath, imageListFile, checkValid=True):
     env = lmdb.open(outputPath, map_size=1099511627776)
     cache = {}
     cnt = 1
-    for i in xrange(nSamples):
+    for i in range(nSamples):
         imagePath = imagePathList[i].rstrip()
         labelPath = imagePath.replace('images', 'labels').replace('JPEGImages', 'labels').replace('.jpg', '.txt').replace('.png','.txt')
         with open(labelPath) as f:
@@ -44,13 +44,13 @@ def createDataset(outputPath, imageListFile, checkValid=True):
         label = ''.join(label)
 
         if not os.path.exists(imagePath):
-            print('%s does not exist' % imagePath)
+            print(('%s does not exist' % imagePath))
             continue
         with open(imagePath, 'r') as f:
             imageBin = f.read()
         if checkValid:
             if not checkImageIsValid(imageBin):
-                print('%s is not a valid image' % imagePath)
+                print(('%s is not a valid image' % imagePath))
                 continue
 
         imageKey = 'image-%09d' % cnt
@@ -60,12 +60,12 @@ def createDataset(outputPath, imageListFile, checkValid=True):
         if cnt % 1000 == 0:
             writeCache(env, cache)
             cache = {}
-            print('Written %d / %d' % (cnt, nSamples))
+            print(('Written %d / %d' % (cnt, nSamples)))
         cnt += 1
     nSamples = cnt-1
     cache['num-samples'] = str(nSamples)
     writeCache(env, cache)
-    print('Created dataset with %d samples' % nSamples)
+    print(('Created dataset with %d samples' % nSamples))
 
 if __name__ == '__main__':
     outputPath = sys.argv[1]

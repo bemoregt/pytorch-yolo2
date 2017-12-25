@@ -6,7 +6,7 @@ def demo(cfgfile, weightfile):
     m = Darknet(cfgfile)
     m.print_network()
     m.load_weights(weightfile)
-    print('Loading weights from %s... Done!' % (weightfile))
+    print(('Loading weights from %s... Done!' % (weightfile)))
 
     if m.num_classes == 20:
         namesfile = 'data/voc.names'

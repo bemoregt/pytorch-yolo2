@@ -26,7 +26,7 @@ class Eltwise(nn.Module):
 
     def forward(self, input_feats):
         if isinstance(input_feats, tuple):
-            print "error : The input of Eltwise layer must be a tuple"
+            print("error : The input of Eltwise layer must be a tuple")
         for i, feat in enumerate(input_feats):
             if x is None:
                 x = feat
@@ -45,7 +45,7 @@ class Concat(nn.Module):
 
     def forward(self, input_feats):
         if not isinstance(input_feats, tuple):
-            print 'The input of Concat layer must be a tuple'
+            print('The input of Concat layer must be a tuple')
         self.length = len(input_feats)
         x = torch.cat(input_feats, 1)
         return x
@@ -150,14 +150,14 @@ class CaffeNet(nn.Module):
         self.modelList = nn.ModuleList()
         if self.is_pretrained:
             self.load_weigths_from_caffe(protofile, caffemodel)
-        for name,model in self.models.items():
+        for name,model in list(self.models.items()):
             self.modelList.append(model)
 
 
     def load_weigths_from_caffe(self, protofile, caffemodel):
         caffe.set_mode_cpu()
         net = caffe.Net(protofile, caffemodel, caffe.TEST)
-        for name, layer in self.models.items():
+        for name, layer in list(self.models.items()):
             if isinstance(layer, nn.Conv2d):
                 caffe_weight = net.params[name][0].data
                 layer.weight.data = torch.from_numpy(caffe_weight)
@@ -187,7 +187,7 @@ class CaffeNet(nn.Module):
 
 
     def print_network(self):
-        print(self.net_info)
+        print((self.net_info))
 
     def create_network(self, net_info):
         #print net_info
@@ -204,10 +204,10 @@ class CaffeNet(nn.Module):
                 continue
             if ltype == 'ImageData':
                 continue
-            if layer.has_key('top'):
+            if 'top' in layer:
                 tops = layer['top']
                 self.layer_map_to_top[name] = tops
-            if layer.has_key('bottom'):
+            if 'bottom' in layer:
                 bottoms = layer['bottom']
                 self.layer_map_to_bottom[name] = bottoms
             if ltype == 'Convolution':
@@ -218,16 +218,16 @@ class CaffeNet(nn.Module):
                 pad = 0
                 bias = True
                 dilation = 1
-                if layer['convolution_param'].has_key('stride'):
+                if 'stride' in layer['convolution_param']:
                     stride = int(layer['convolution_param']['stride'])
-                if layer['convolution_param'].has_key('pad'):
+                if 'pad' in layer['convolution_param']:
                     pad = int(layer['convolution_param']['pad'])
-                if layer['convolution_param'].has_key('group'):
+                if 'group' in layer['convolution_param']:
                     group = int(layer['convolution_param']['group'])
-                if layer['convolution_param'].has_key('bias_term'):
+                if 'bias_term' in layer['convolution_param']:
                     bias = True if layer['convolution_param']\
                             ['bias_term'].lower() == 'false' else False 
-                if layer['convolution_param'].has_key('dilation'):
+                if 'dilation' in layer['convolution_param']:
                     dilation = int(layer['convolution_param']['dilation'])
                 num_output = int(layer['convolution_param']['num_output'])
                 top_dim[tops[0]]=num_output
@@ -241,12 +241,12 @@ class CaffeNet(nn.Module):
             elif ltype == 'Pooling':
                 kernel_size = int(layer['pooling_param']['kernel_size'])
                 stride = 1
-                if layer['pooling_param'].has_key('stride'):
+                if 'stride' in layer['pooling_param']:
                     stride = int(layer['pooling_param']['stride'])
                 top_dim[tops[0]] = top_dim[bottoms[0]]
                 models[name] = nn.MaxPool2d(kernel_size, stride)
             elif ltype == 'BatchNorm':
-                if layer['batch_norm_param'].has_key('use_global_stats'):
+                if 'use_global_stats' in layer['batch_norm_param']:
                     use_global_stats = True if layer['batch_norm_param']\
                             ['use_global_stats'].lower() == 'true' else False
                 top_dim[tops[0]] = top_dim[bottoms[0]]
@@ -272,19 +272,19 @@ class CaffeNet(nn.Module):
                 top_dim[tops[0]] = top_dim[bottoms[0]]
                 models[name] = nn.Dropout2d(inplace=inplace)
             else:
-                print '%s is not NotImplemented'%ltype
+                print('%s is not NotImplemented'%ltype)
 
         return models
 
     def forward(self, x, target=None):
         blobs = OrderedDict()
-        for name, layer in self.models.items():
+        for name, layer in list(self.models.items()):
             output_names = self.layer_map_to_top[name]
             input_names = self.layer_map_to_bottom[name]
-            print "-----------------------------------------"
-            print 'input_names: ',input_names
-            print 'output_names:',output_names
-            print layer
+            print("-----------------------------------------")
+            print('input_names: ',input_names)
+            print('output_names:',output_names)
+            print(layer)
             # frist layer
             if input_names[0] == 'data':
                 top_blobs = layer(x)
@@ -299,8 +299,8 @@ class CaffeNet(nn.Module):
 
             for k, v in zip(output_names, top_blobs):
                 blobs[k] = v
-        output_name = blobs.keys()[-1]
-        print 'output_name',output_name
+        output_name = list(blobs.keys())[-1]
+        print('output_name',output_name)
         return blobs[output_name]
 
 
@@ -326,6 +326,6 @@ if __name__ == '__main__':
         boxes = do_detect(m, sized, 0.5, 0.4, use_cuda)
         finish = time.time()
         if i == 1:
-            print('%s: Predicted in %f seconds.' % (imgfile, (finish-start)))
+            print(('%s: Predicted in %f seconds.' % (imgfile, (finish-start))))
 
     plot_boxes(img, boxes, 'predictions.jpg', class_names)

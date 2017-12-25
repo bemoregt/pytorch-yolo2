@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 import sys
 if len(sys.argv) != 4:
     print('Usage:')

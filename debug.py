@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 import torch.optim as optim
 import os
 import torch
@@ -74,11 +74,11 @@ output.register_hook(extract)
 loss.backward()
 
 saved_grad = saved_grad.view(-1)
-for i in xrange(saved_grad.size(0)):
+for i in range(saved_grad.size(0)):
     if abs(saved_grad[i]) >= 0.001:
         print('%d : %f' % (i, saved_grad[i]))
 
-print(m.state_dict().keys())
+print(list(m.state_dict().keys()))
 #print(m.models[0][0].weight.grad.data.storage()[0:100])
 #print(m.models[14][0].weight.data.storage()[0:100])
 weight = m.models[13][0].weight.data

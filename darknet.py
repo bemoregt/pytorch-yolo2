@@ -123,7 +123,7 @@ class Darknet(nn.Module):
             elif block['type'] == 'cost':
                 continue
             else:
-                print('unknown type %s' % (block['type']))
+                print(('unknown type %s' % (block['type'])))
         return x
 
     def print_network(self):
@@ -238,7 +238,7 @@ class Darknet(nn.Module):
                 out_filters.append(prev_filters)
                 models.append(loss)
             else:
-                print('unknown type %s' % (block['type']))
+                print(('unknown type %s' % (block['type'])))
     
         return models
 
@@ -288,7 +288,7 @@ class Darknet(nn.Module):
             elif block['type'] == 'cost':
                 pass
             else:
-                print('unknown type %s' % (block['type']))
+                print(('unknown type %s' % (block['type'])))
 
     def save_weights(self, outfile, cutoff=0):
         if cutoff <= 0:
@@ -333,5 +333,5 @@ class Darknet(nn.Module):
             elif block['type'] == 'cost':
                 pass
             else:
-                print('unknown type %s' % (block['type']))
+                print(('unknown type %s' % (block['type'])))
         fp.close()

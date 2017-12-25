@@ -33,6 +33,6 @@ with env.begin(write=False) as txn:
             y2 = int(y + h/2.0)
             cv2.rectangle(img, (x1,y1), (x2,y2), (255,0,0), 3)
         savename = 'tmp/%s.png'%(image_key)
-        print('save %s' % (savename))
+        print(('save %s' % (savename)))
         cv2.imwrite(savename, img)
 

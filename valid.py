@@ -55,7 +55,7 @@ def valid(datacfg, cfgfile, weightfile, outfile):
             lineId = lineId + 1
             fileId = os.path.basename(valid_files[lineId]).split('.')[0]
             width, height = get_image_size(valid_files[lineId])
-            print(valid_files[lineId])
+            print((valid_files[lineId]))
             boxes = batch_boxes[i]
             boxes = nms(boxes, nms_thresh)
             for box in boxes:
